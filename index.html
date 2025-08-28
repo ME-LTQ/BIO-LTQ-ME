@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>𝕃𝕋ℚ--𝔹𝕀𝕆</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',sans-serif;background:#000;color:#fff;overflow:hidden;user-select:none}
+    video{position:fixed;top:0;left:0;object-fit:cover;width:100%;height:100%;z-index:-1}
+    .container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;background:rgba(0,0,0,.6);padding:30px;border-radius:20px;backdrop-filter:blur(10px);display:none}
+    .avatar-wrapper{position:relative;width:130px;height:130px;margin:0 auto 15px auto}
+    .avatar-border{width:130px;height:130px;border-radius:50%;padding:4px;background:conic-gradient(red,orange,yellow,lime,cyan,blue,violet,red);animation:spin 4s linear infinite;position:absolute;top:0;left:0;z-index:1}
+    .avatar{width:122px;height:122px;border-radius:50%;object-fit:cover;position:absolute;top:4px;left:4px;z-index:2;border:2px solid #fff}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .typewriter{display:inline-block;white-space:nowrap;overflow:hidden;animation:typing 2s steps(30,end) forwards}
+    .delay1{animation-delay:0s}
+    .delay2{animation-delay:0.5s}
+    .delay3{animation-delay:1s}
+    .delay4{animation-delay:1.5s}
+    .delay5{animation-delay:2s}
+    .rainbow{background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,violet,red);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:400%;animation:rainbow 5s linear infinite,typing 2s steps(30,end) forwards}
+    @keyframes typing{from{width:0}to{width:100%}}
+    @keyframes rainbow{0%{background-position:0%}100%{background-position:400%}}
+    .my-btn{position:fixed;top:20px;left:20px;padding:10px 22px;border:3px solid transparent;border-radius:12px;background:transparent;color:#fff;font-size:18px;font-weight:bold;cursor:pointer;text-decoration:none;z-index:1000;background-image:linear-gradient(#000,#000),linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,violet,red);background-origin:border-box;background-clip:padding-box,border-box;display:none;transition:0.3s}
+    .my-btn:hover{background:rgba(255,255,255,0.1);transform:scale(1.05)}
+  </style>
+</head>
+<body oncontextmenu="return false">
+  <video id="bg-video" src="video.mp4" autoplay muted loop></video>
+
+  <a href="https://www.youtube.com/@LTQ-tool" id="ltqBtn" class="my-btn">YOUTUBE ME</a>
+
+  <div class="container" id="mainContent">
+    <div class="avatar-wrapper">
+      <div class="avatar-border"></div>
+      <img src="avatar.jpg" alt="Avatar" class="avatar" />
+    </div>
+    <h1 class="typewriter delay1">~𝓛 𝓣 𝓠~</h1>
+    <div class="link typewriter delay4"><b class="rainbow">ah mờ longg oiw</b></div>
+    <div class="music typewriter delay5">.2/9.</div>
+  </div>
+
+  <div id="forbiddenScreen" class="forbidden" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#f44336;display:none;justify-content:center;align-items:center;color:#333;z-index:999">
+    <div style="background:#fff;border-radius:16px;padding:30px;max-width:400px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.3)">
+      <h1 class="typewriter delay1" style="font-size:56px;margin:0 0 6px;color:#d32f2f">403</h1>
+      <h2 class="typewriter delay2" style="font-size:20px;margin:0 0 10px">Truy cập bị cấm</h2>
+      <p class="typewriter delay3" style="font-size:14px;margin:0 0 8px;color:#444">YOU ARE USING VPN-PROXY-VIETNAM IP ONLY</p>
+      <div class="status typewriter delay4" style="display:flex;justify-content:space-between;background:#f7f7f7;padding:8px 12px;border-radius:8px;font-size:14px;margin-top:10px">
+        <span><b>Trạng thái:</b> Hạn chế</span>
+        <span><b>Thời gian:</b> <span id="timeNow"></span></span>
+      </div>
+      <div class="ddos typewriter delay5" style="background:#e6f7f4;color:#0a8578;padding:8px;border-radius:6px;margin-top:12px;font-size:14px">🔒</div>
+    </div>
+  </div>
+
+  <script>
+    const BAN_KEY="banUntil"
+    function t(){const n=new Date();document.getElementById("timeNow").textContent=`${String(n.getHours()).padStart(2,"0")}:${String(n.getMinutes()).padStart(2,"0")}:${String(n.getSeconds()).padStart(2,"0")}`}
+    function show403(){const now=Date.now();const banUntil=localStorage.getItem(BAN_KEY);if(!banUntil||now>parseInt(banUntil)){const banExpire=now+5*60*1000;localStorage.setItem(BAN_KEY,banExpire)}document.getElementById("forbiddenScreen").style.display="flex";document.getElementById("ltqBtn").style.display="none";t();setInterval(t,1000)}
+    function showMain(){document.getElementById("mainContent").style.display="block";document.getElementById("ltqBtn").style.display="inline-block";const v=document.getElementById("bg-video");v.muted=false;v.play().catch(()=>{})}
+    function timeoutFetch(u,o={}){const c=new AbortController();const id=setTimeout(()=>c.abort(),o.timeout||6000);return fetch(u,{...o,signal:c.signal}).finally(()=>clearTimeout(id))}
+    async function checkAccess(){try{const banUntil=parseInt(localStorage.getItem(BAN_KEY)||"0");if(Date.now()<banUntil){show403();return}const r=await timeoutFetch("https://ipwho.is/?lang=en",{timeout:6000});if(!r.ok){show403();return}const d=await r.json();const isVN=(d&&d.country_code==="VN");const sec=d&&d.security?d.security:{};const isBad=Boolean(sec.vpn||sec.proxy||sec.tor||sec.anonymous||sec.hosting);if(isVN&&!isBad){showMain();return}const r2=await timeoutFetch("https://ipapi.co/json/",{timeout:5000});if(!r2.ok){show403();return}const d2=await r2.json();const isVN2=(d2&&d2.country_code==="VN");if(isVN2&&!isBad){showMain();return}show403()}catch(e){show403()}}
+    checkAccess()
+    document.addEventListener("keydown",function(e){if(e.key==="F12"||(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==="i")||(e.ctrlKey&&e.key.toLowerCase()==="u")||(e.ctrlKey&&e.key.toLowerCase()==="s")){e.preventDefault()}})
+    document.addEventListener("contextmenu",e=>e.preventDefault())
+    document.addEventListener("selectstart",e=>e.preventDefault())
+  </script>
+</body>
+</html>
