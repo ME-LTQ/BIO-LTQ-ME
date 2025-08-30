@@ -147,6 +147,42 @@
       margin-top:20px;
       display:none;
     }
+
+    /* Popup Image */
+    .popup {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.7);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:2000;
+    }
+    .popup img {
+      max-width:90%;
+      max-height:80%;
+      border-radius:16px;
+      box-shadow:0 0 25px #fff;
+    }
+    .close-btn {
+      position:absolute;
+      top:20px; right:30px;
+      font-size:30px;
+      color:#fff;
+      cursor:pointer;
+    }
+    .show-img-btn {
+      margin-top:20px;
+      padding:10px 20px;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(90deg,cyan,blue,violet);
+      color:#fff;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    .show-img-btn:hover {transform:scale(1.1);}
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
@@ -168,6 +204,8 @@
     <h1>~ LTQ ~</h1>
     <p class="tagline">ah mờ longg oiw ✨</p>
 
+    <button class="show-img-btn" onclick="showPopup()">Xem Tài Lộc</button>
+
     <div class="socials">
       <a href="https://www.youtube.com/@LTQ-tool" target="_blank"><i class="fab fa-youtube"></i></a>
       <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
@@ -175,6 +213,12 @@
     </div>
 
     <div class="footer">© 2025 LTQ | All rights reserved</div>
+  </div>
+
+  <!-- Popup -->
+  <div class="popup" id="popup">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <img src="tailoctinao.png" alt="Tài Lộc Tới Nào" />
   </div>
 
   <script>
@@ -193,6 +237,13 @@
       }).catch(err=>{
         console.log("Autoplay with sound failed", err);
       });
+    }
+
+    function showPopup(){
+      document.getElementById('popup').style.display='flex';
+    }
+    function closePopup(){
+      document.getElementById('popup').style.display='none';
     }
   </script>
 </body>
