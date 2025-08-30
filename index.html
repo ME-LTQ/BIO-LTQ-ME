@@ -3,51 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LTQ - Bio</title>
+  <title>Bio LTQ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    * {margin:0; padding:0; box-sizing:border-box;}
     body {
-      font-family:'Segoe UI', sans-serif;
-      background:linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color:#fff;
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    .container {
-      position:absolute;
-      top:50%; left:50%;
-      transform:translate(-50%,-50%);
-      text-align:center;
-      background:rgba(255,255,255,0.08);
-      padding:40px;
-      border-radius:24px;
-      backdrop-filter:blur(20px);
-      box-shadow:0 8px 32px rgba(0,0,0,0.5);
-      animation: fadeIn 2s ease;
-      max-width:90%;
-      width:600px;
+    .bio-card {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      max-width: 400px;
+      width: 90%;
     }
 
-    h1 {font-size:2.2em;margin-bottom:10px;}
-    p {margin-bottom:20px;font-size:1.1em;opacity:0.9;}
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin: 10px 0 5px;
+      font-size: 24px;
+    }
+
+    p {
+      margin: 5px 0 20px;
+      font-size: 14px;
+      color: #ccc;
+    }
 
     .socials {
-      display:flex;
-      justify-content:center;
-      gap:25px;
-      margin-top:20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
     }
 
     .socials a {
-      width:65px; height:65px;
+      width:45px; height:45px;
       display:flex; align-items:center; justify-content:center;
       border-radius:50%;
       background:rgba(255,255,255,0.1);
       backdrop-filter:blur(10px);
-      font-size:28px;
+      font-size:20px;
       color:#fff;
       text-decoration:none;
       transition:0.3s;
@@ -55,31 +69,26 @@
       animation: bounce 2s infinite ease-in-out;
     }
 
-    @keyframes bounce {
-      0%,100% { transform:translateY(0) scale(1); }
-      50% { transform:translateY(-20px) scale(1.2); }
-    }
-
-    .socials a:nth-child(2) {animation-delay:1s;}
-    .socials a:nth-child(3) {animation-delay:0.5s;}
-
     .socials a:hover {
-      transform:scale(1.3)!important;
-      box-shadow:0 0 20px #fff;
+      transform: scale(1.2);
+      background: rgba(255,255,255,0.3);
     }
 
-    @keyframes fadeIn {
-      from {opacity:0;transform:translate(-50%,-40%);}
-      to {opacity:1;transform:translate(-50%,-50%);}
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px) scale(1.1); }
     }
+
+    /* đổi pha để icon nhảy ngược nhau */
+    .socials a:nth-child(2) { animation-delay: 1s; }
+    .socials a:nth-child(3) { animation-delay: 0.5s; }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-
-  <div class="container">
-    <h1>LTQ Bio</h1>
-    <p>Chào mừng đến với bio của LTQ 👋</p>
+  <div class="bio-card">
+    <img src="https://i.ibb.co/4Y3Q4vQ/avatar.png" alt="Avatar" class="avatar">
+    <h2>LTQ</h2>
+    <p>Xin chào! Đây là bio của mình 🚀</p>
     <div class="socials">
       <a href="https://www.youtube.com/@LTQ-tool" target="_blank"><i class="fab fa-youtube"></i></a>
       <a href="https://discord.com/invite/SfFayNKxUE" target="_blank"><i class="fab fa-discord"></i></a>
@@ -88,44 +97,57 @@
   </div>
 
   <script>
-    // Chặn chuột phải
-    document.addEventListener("contextmenu", e => e.preventDefault());
+  (function(){
+    let devToolCounter = parseInt(localStorage.getItem("devtool_counter") || "0");
+    let banned = localStorage.getItem("banned");
 
-    // Chặn phím tắt devtool
-    document.addEventListener("keydown", e => {
+    // Nếu đã bị ban thì chuyển luôn
+    if (banned === "true") {
+      window.location.href = "index2.html";
+    }
+
+    function detectDevTools() {
+      const threshold = 160;
+      const start = new Date().getTime();
+      debugger; // Trick: nếu mở devtool thì time jump
+      if (new Date().getTime() - start > threshold) {
+        devToolCounter++;
+        localStorage.setItem("devtool_counter", devToolCounter);
+
+        if (devToolCounter >= 3) {
+          localStorage.setItem("banned", "true");
+          window.location.href = "index2.html";
+        } else {
+          window.location.href = "index2.html";
+        }
+      }
+    }
+
+    setInterval(detectDevTools, 1000);
+
+    // Chặn F12, Ctrl+Shift+I, Ctrl+U
+    document.addEventListener("keydown", function(e) {
       if (
-        e.keyCode == 123 || // F12
-        (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || // Ctrl+Shift+I/J/C
-        (e.ctrlKey && e.keyCode == 85) // Ctrl+U
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+        (e.ctrlKey && e.key === "U")
       ) {
         e.preventDefault();
-        window.location.href = "index2.html";
+        devToolCounter++;
+        localStorage.setItem("devtool_counter", devToolCounter);
+
+        if (devToolCounter >= 3) {
+          localStorage.setItem("banned", "true");
+          window.location.href = "index2.html";
+        } else {
+          window.location.href = "index2.html";
+        }
       }
     });
 
-    // Kiểm tra kích thước cửa sổ (detect devtool docked)
-    setInterval(() => {
-      const threshold = 160;
-      if (
-        window.outerWidth - window.innerWidth > threshold ||
-        window.outerHeight - window.innerHeight > threshold
-      ) {
-        window.location.href = "index2.html";
-      }
-    }, 500);
-
-    // Detect mở console bằng tốc độ thực thi debugger
-    (function devtoolsChecker() {
-      const check = () => {
-        const start = performance.now();
-        debugger; // khi DevTools mở, sẽ dừng -> chênh lệch thời gian lớn
-        if (performance.now() - start > 100) {
-          window.location.href = "index2.html";
-        }
-      };
-      setInterval(check, 1000);
-    })();
+    // Chặn chuột phải
+    document.addEventListener("contextmenu", e => e.preventDefault());
+  })();
   </script>
-
 </body>
 </html>
