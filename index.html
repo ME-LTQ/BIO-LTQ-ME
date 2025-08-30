@@ -40,8 +40,14 @@
       backdrop-filter:blur(20px);
       box-shadow:0 8px 32px rgba(0,0,0,0.5);
       animation: fadeIn 2s ease;
-      max-width: 90%;
+      max-width:90%;
       display:none;
+    }
+    /* PC thì khung rộng hơn */
+    @media (min-width: 768px) {
+      .container {
+        width: 600px; /* chỉnh to hơn trên PC */
+      }
     }
     @keyframes fadeIn {from{opacity:0; transform:translate(-50%,-40%);} to{opacity:1; transform:translate(-50%,-50%);}}
     .avatar-wrapper {
@@ -215,7 +221,6 @@
     <div class="footer">© 2025 LTQ |</div>
   </div>
 
-
   <div class="popup" id="popup">
     <span class="close-btn" onclick="closePopup()">&times;</span>
     <img src="anh1.png" alt="E XIN TÍ LỘC -)" />
@@ -248,5 +253,3 @@
   </script>
 </body>
 </html>
-
-
