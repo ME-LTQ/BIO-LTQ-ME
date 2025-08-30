@@ -77,7 +77,16 @@
       animation: rainbow 6s linear infinite;
     }
     @keyframes rainbow {0%{background-position:0%}100%{background-position:400%}}
-    .tagline {font-size:1rem; margin-bottom:20px; opacity:0.85;}
+    .tagline {
+      font-size:1rem; 
+      margin-bottom:20px; 
+      background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,violet,red);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-size:400%;
+      animation: rainbowMove 5s linear infinite;
+    }
+    @keyframes rainbowMove {0%{background-position:0%}100%{background-position:400%}}
     .socials {display:flex; justify-content:center; gap:15px; margin-top:20px;}
     .socials a {
       width:45px; height:45px;
@@ -97,7 +106,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <video src="video.mp4" autoplay muted loop></video>
+  <video src="video.mp4" autoplay loop></video>
   <div class="overlay"></div>
   
   <div class="container">
