@@ -8,27 +8,14 @@
     * {margin:0; padding:0; box-sizing:border-box;}
     body {
       font-family:'Segoe UI', sans-serif;
-      background:#000;
+      background:linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color:#fff;
-      overflow:hidden;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
     }
-    video {
-      position:fixed;
-      top:0; left:0;
-      object-fit:cover;
-      width:100%; height:100%;
-      z-index:-1;
-      filter:brightness(0.4);
-      display:none;
-    }
-    .overlay {
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      backdrop-filter: blur(8px);
-      background:rgba(0,0,0,0.3);
-      display:none;
-    }
+
     .container {
       position:absolute;
       top:50%; left:50%;
@@ -41,215 +28,75 @@
       box-shadow:0 8px 32px rgba(0,0,0,0.5);
       animation: fadeIn 2s ease;
       max-width:90%;
-      display:none;
+      width:600px; /* 👈 rộng hơn */
+      display:block;
     }
-    /* PC thì khung rộng hơn */
-    @media (min-width: 768px) {
-      .container {
-        width: 600px; /* chỉnh to hơn trên PC */
-      }
-    }
-    @keyframes fadeIn {from{opacity:0; transform:translate(-50%,-40%);} to{opacity:1; transform:translate(-50%,-50%);}}
-    .avatar-wrapper {
-      position:relative;
-      width:150px; height:150px;
-      margin:0 auto 20px auto;
-    }
-    .avatar-border {
-      width:150px; height:150px;
-      border-radius:50%;
-      padding:5px;
-      background:conic-gradient(red,orange,yellow,lime,cyan,blue,violet,red);
-      animation:spin 6s linear infinite;
-      position:absolute; top:0; left:0;
-      z-index:1;
-    }
-    .avatar {
-      width:140px; height:140px;
-      border-radius:50%;
-      object-fit:cover;
-      position:absolute;
-      top:5px; left:5px;
-      z-index:2;
-      border:3px solid #fff;
-      box-shadow:0 0 25px rgba(255,255,255,0.4);
-      transition: transform .3s;
-    }
-    .avatar:hover {transform: scale(1.08);}
-    @keyframes spin {to{transform:rotate(360deg);}}
+
     h1 {
-      font-size:2.2rem;
-      margin-bottom:12px;
-      background:linear-gradient(90deg,#ff4d4d,#ffcc00,#33ff77,#33ccff,#cc66ff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      animation: rainbow 6s linear infinite;
+      font-size:2.2em;
+      margin-bottom:10px;
     }
-    @keyframes rainbow {0%{background-position:0%}100%{background-position:400%}}
-    .tagline {
-      font-size:1rem; 
-      margin-bottom:20px; 
-      background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,violet,red);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-size:400%;
-      animation: rainbowMove 5s linear infinite;
+
+    p {
+      margin-bottom:20px;
+      font-size:1.1em;
+      opacity:0.9;
     }
-    @keyframes rainbowMove {0%{background-position:0%}100%{background-position:400%}}
-    .socials {display:flex; justify-content:center; gap:15px; margin-top:20px;}
+
+    .socials {
+      display:flex;
+      justify-content:center;
+      gap:25px;
+      margin-top:20px;
+    }
+
     .socials a {
-      width:45px; height:45px;
+      width:65px; height:65px;
       display:flex; align-items:center; justify-content:center;
       border-radius:50%;
       background:rgba(255,255,255,0.1);
       backdrop-filter:blur(10px);
-      font-size:20px;
+      font-size:28px;
       color:#fff;
       text-decoration:none;
       transition:0.3s;
       box-shadow:0 0 12px rgba(255,255,255,0.2);
-    }
-    .socials a:hover {transform:scale(1.15); box-shadow:0 0 20px #fff;}
-    .footer {margin-top:30px; font-size:0.9rem; opacity:0.7;}
-
-    /* Start Screen */
-    .start-screen {
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background:#000;
-      flex-direction:column;
-      z-index:1000;
-    }
-    .start-screen h2 {
-      margin-bottom:20px;
-      font-size:2rem;
-      color:#fff;
-    }
-    .start-btn {
-      padding:12px 28px;
-      font-size:1.2rem;
-      font-weight:bold;
-      border:none;
-      border-radius:12px;
-      background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,violet);
-      color:#fff;
-      cursor:pointer;
-      transition:0.3s;
-    }
-    .start-btn:hover {transform:scale(1.1);}
-
-    /* Loader */
-    .loader {
-      border: 6px solid rgba(255,255,255,0.1);
-      border-top: 6px solid #fff;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-top:20px;
-      display:none;
+      animation: bounce 2s infinite ease-in-out;
     }
 
-    /* Popup Image */
-    .popup {
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background:rgba(0,0,0,0.7);
-      display:none;
-      justify-content:center;
-      align-items:center;
-      z-index:2000;
+    /* hiệu ứng nhảy lên xuống */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.2); }
     }
-    .popup img {
-      max-width:90%;
-      max-height:80%;
-      border-radius:16px;
-      box-shadow:0 0 25px #fff;
+
+    /* đổi pha cho icon nhảy ngược nhau */
+    .socials a:nth-child(2) { animation-delay: 1s; }
+    .socials a:nth-child(3) { animation-delay: 0.5s; }
+
+    .socials a:hover {
+      transform: scale(1.3) !important;
+      box-shadow:0 0 20px #fff;
     }
-    .close-btn {
-      position:absolute;
-      top:20px; right:30px;
-      font-size:30px;
-      color:#fff;
-      cursor:pointer;
+
+    @keyframes fadeIn {
+      from {opacity:0; transform:translate(-50%,-40%);}
+      to {opacity:1; transform:translate(-50%,-50%);}
     }
-    .show-img-btn {
-      margin-top:20px;
-      padding:10px 20px;
-      border:none;
-      border-radius:10px;
-      background:linear-gradient(90deg,cyan,blue,violet);
-      color:#fff;
-      cursor:pointer;
-      transition:0.3s;
-    }
-    .show-img-btn:hover {transform:scale(1.1);}
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <div class="start-screen" id="startScreen">
-    <h2>XIN CHÀO NHA-)</h2>
-    <button class="start-btn" onclick="startBio()">NHẤN ĐÂY NÈ MẤY MÁ</button>
-    <div class="loader" id="loader"></div>
-  </div>
 
-  <video id="bgVideo" src="video.mp4" loop></video>
-  <div class="overlay"></div>
-  
-  <div class="container" id="bioContainer">
-    <div class="avatar-wrapper">
-      <div class="avatar-border"></div>
-      <img src="avatar.jpg" alt="Avatar" class="avatar" />
-    </div>
-    <h1>~ LTQ ~</h1>
-    <p class="tagline">ah mờ longg oiw ✨</p>
-
-    <button class="show-img-btn" onclick="showPopup()">E XIN TÍ LỘC Ạ</button>
-
+  <div class="container">
+    <h1>LTQ Bio</h1>
+    <p>Chào mừng đến với bio của LTQ 👋</p>
     <div class="socials">
       <a href="https://www.youtube.com/@LTQ-tool" target="_blank"><i class="fab fa-youtube"></i></a>
       <a href="https://discord.com/invite/SfFayNKxUE" target="_blank"><i class="fab fa-discord"></i></a>
       <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
     </div>
-
-    <div class="footer">© 2025 LTQ |</div>
   </div>
 
-  <div class="popup" id="popup">
-    <span class="close-btn" onclick="closePopup()">&times;</span>
-    <img src="anh1.png" alt="E XIN TÍ LỘC -)" />
-  </div>
-
-  <script>
-    function startBio(){
-      document.querySelector('.start-btn').style.display='none';
-      document.getElementById('loader').style.display='block';
-      const video=document.getElementById('bgVideo');
-      video.load();
-      video.play().then(()=>{
-        setTimeout(()=>{
-          document.getElementById('startScreen').style.display='none';
-          video.style.display='block';
-          document.querySelector('.overlay').style.display='block';
-          document.getElementById('bioContainer').style.display='block';
-        },2000);
-      }).catch(err=>{
-        console.log("Autoplay with sound failed", err);
-      });
-    }
-
-    function showPopup(){
-      document.getElementById('popup').style.display='flex';
-    }
-    function closePopup(){
-      document.getElementById('popup').style.display='none';
-    }
-  </script>
 </body>
 </html>
