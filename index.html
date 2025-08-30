@@ -3,125 +3,264 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bio LTQ</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>LTQ - Bio</title>
   <style>
+    * {margin:0; padding:0; box-sizing:border-box;}
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      text-align: center;
+      font-family:'Segoe UI', sans-serif;
+      background:#000;
+      color:#fff;
+      overflow:hidden;
+    }
+    video {
+      position:fixed;
+      top:0; left:0;
+      object-fit:cover;
+      width:100%; height:100%;
+      z-index:-1;
+      filter:brightness(0.4);
+      display:none;
+    }
+    .overlay {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      backdrop-filter: blur(8px);
+      background:rgba(0,0,0,0.3);
+      display:none;
     }
     .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+      background:rgba(255,255,255,0.08);
+      padding:40px;
+      border-radius:24px;
+      backdrop-filter:blur(20px);
+      box-shadow:0 8px 32px rgba(0,0,0,0.5);
+      animation: fadeIn 2s ease;
+      max-width:90%;
+      display:none;
+    }
+    @media (min-width: 768px) {
+      .container { width: 600px; }
+    }
+    @keyframes fadeIn {from{opacity:0; transform:translate(-50%,-40%);} to{opacity:1; transform:translate(-50%,-50%);}}
+
+    .avatar-wrapper {
+      position:relative;
+      width:150px; height:150px;
+      margin:0 auto 20px auto;
+    }
+    .avatar-border {
+      width:150px; height:150px;
+      border-radius:50%;
+      padding:5px;
+      background:conic-gradient(red,orange,yellow,lime,cyan,blue,violet,red);
+      animation:spin 6s linear infinite;
+      position:absolute; top:0; left:0;
+      z-index:1;
     }
     .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin-bottom: 20px;
+      width:140px; height:140px;
+      border-radius:50%;
+      object-fit:cover;
+      position:absolute;
+      top:5px; left:5px;
+      z-index:2;
+      border:3px solid #fff;
+      box-shadow:0 0 25px rgba(255,255,255,0.4);
+      transition: transform .3s;
     }
+    .avatar:hover {transform: scale(1.08);}
+    @keyframes spin {to{transform:rotate(360deg);}}
+
     h1 {
-      margin: 0;
-      font-size: 28px;
+      font-size:2.2rem;
+      margin-bottom:12px;
+      background:linear-gradient(90deg,#ff4d4d,#ffcc00,#33ff77,#33ccff,#cc66ff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation: rainbow 6s linear infinite;
     }
-    p {
-      margin: 5px 0 20px;
-      font-size: 16px;
-      color: #aaa;
+    @keyframes rainbow {0%{background-position:0%}100%{background-position:400%}}
+
+    .tagline {
+      font-size:1rem; 
+      margin-bottom:20px; 
+      background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,violet,red);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-size:400%;
+      animation: rainbowMove 5s linear infinite;
     }
-    .links a {
-      margin: 0 10px;
-      font-size: 28px;
-      color: #fff;
-      transition: transform 0.3s ease-in-out;
+    @keyframes rainbowMove {0%{background-position:0%}100%{background-position:400%}}
+
+    .socials {display:flex; justify-content:center; gap:15px; margin-top:20px;}
+    .socials a {
+      width:40px; height:40px;
+      display:flex; align-items:center; justify-content:center;
+      border-radius:50%;
+      background:rgba(255,255,255,0.1);
+      backdrop-filter:blur(10px);
+      font-size:18px;
+      color:#fff;
+      text-decoration:none;
+      transition:0.3s;
+      box-shadow:0 0 12px rgba(255,255,255,0.2);
+      animation: bounce 2s infinite ease-in-out;
     }
-    .links a:hover {
-      color: #ff4757;
+    /* nhảy lên xuống */
+    @keyframes bounce {
+      0%,100% {transform:translateY(0) scale(1);}
+      50% {transform:translateY(-12px) scale(1.2);}
     }
-    /* Hiệu ứng nhảy */
-    @keyframes upDown {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+    .socials a:nth-child(2){animation-delay:1s;}
+    .socials a:nth-child(3){animation-delay:0.5s;}
+
+    .socials a:hover {transform:scale(1.2) !important; box-shadow:0 0 20px #fff;}
+
+    .footer {margin-top:30px; font-size:0.9rem; opacity:0.7;}
+
+    /* Start Screen */
+    .start-screen {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#000;
+      flex-direction:column;
+      z-index:1000;
     }
-    @keyframes downUp {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(15px); }
+    .start-screen h2 {
+      margin-bottom:20px;
+      font-size:2rem;
+      color:#fff;
     }
-    .yt { animation: upDown 2s infinite; }
-    .discord { animation: downUp 2s infinite; }
-    .instagram { animation: upDown 2s infinite; animation-delay: 1s; }
+    .start-btn {
+      padding:12px 28px;
+      font-size:1.2rem;
+      font-weight:bold;
+      border:none;
+      border-radius:12px;
+      background:linear-gradient(90deg,red,orange,yellow,lime,cyan,blue,violet);
+      color:#fff;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    .start-btn:hover {transform:scale(1.1);}
+
+    /* Loader */
+    .loader {
+      border: 6px solid rgba(255,255,255,0.1);
+      border-top: 6px solid #fff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-top:20px;
+      display:none;
+    }
+
+    /* Popup Image */
+    .popup {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.7);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:2000;
+    }
+    .popup img {
+      max-width:90%;
+      max-height:80%;
+      border-radius:16px;
+      box-shadow:0 0 25px #fff;
+    }
+    .close-btn {
+      position:absolute;
+      top:20px; right:30px;
+      font-size:30px;
+      color:#fff;
+      cursor:pointer;
+    }
+    .show-img-btn {
+      margin-top:20px;
+      padding:10px 20px;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(90deg,cyan,blue,violet);
+      color:#fff;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    .show-img-btn:hover {transform:scale(1.1);}
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <div class="container">
-    <img src="avatar.jpg" alt="Avatar" class="avatar">
-    <h1>LTQ TOOL</h1>
-    <p>Bio cá nhân</p>
-    <div class="links">
-      <a href="https://www.youtube.com/@LTQ-tool" target="_blank" class="yt"><i class="fab fa-youtube"></i></a>
-      <a href="https://discord.com/invite/SfFayNKxUE" target="_blank" class="discord"><i class="fab fa-discord"></i></a>
-      <a href="https://www.instagram.com/" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
-    </div>
+  <div class="start-screen" id="startScreen">
+    <h2>XIN CHÀO NHA-)</h2>
+    <button class="start-btn" onclick="startBio()">NHẤN ĐÂY NÈ MẤY MÁ</button>
+    <div class="loader" id="loader"></div>
   </div>
 
-  <!-- Script chống DevTools + Ban 5 phút -->
+  <video id="bgVideo" src="video.mp4" loop></video>
+  <div class="overlay"></div>
+  
+  <div class="container" id="bioContainer">
+    <div class="avatar-wrapper">
+      <div class="avatar-border"></div>
+      <img src="avatar.jpg" alt="Avatar" class="avatar" />
+    </div>
+    <h1>~ LTQ ~</h1>
+    <p class="tagline">ah mờ longg oiw ✨</p>
+
+    <button class="show-img-btn" onclick="showPopup()">E XIN TÍ LỘC Ạ</button>
+
+    <div class="socials">
+      <a href="https://www.youtube.com/@LTQ-tool" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://discord.com/invite/SfFayNKxUE" target="_blank"><i class="fab fa-discord"></i></a>
+      <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <div class="footer">© 2025 LTQ |</div>
+  </div>
+
+  <div class="popup" id="popup">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <img src="anh1.png" alt="E XIN TÍ LỘC -)" />
+  </div>
+
   <script>
-    let devCount = parseInt(localStorage.getItem("devCount") || "0");
-    let banUntil = parseInt(localStorage.getItem("banUntil") || "0");
-    let now = Date.now();
-
-    // Nếu đang bị ban thì redirect luôn
-    if (banUntil > now) {
-      location.href = "index2.html";
+    function startBio(){
+      document.querySelector('.start-btn').style.display='none';
+      document.getElementById('loader').style.display='block';
+      const video=document.getElementById('bgVideo');
+      video.load();
+      video.play().then(()=>{
+        setTimeout(()=>{
+          document.getElementById('startScreen').style.display='none';
+          video.style.display='block';
+          document.querySelector('.overlay').style.display='block';
+          document.getElementById('bioContainer').style.display='block';
+        },2000);
+      }).catch(err=>{
+        console.log("Autoplay with sound failed", err);
+      });
     }
 
-    function setBan(minutes) {
-      let expire = Date.now() + minutes * 60 * 1000;
-      localStorage.setItem("banUntil", expire);
-      location.href = "index2.html";
+    function showPopup(){
+      document.getElementById('popup').style.display='flex';
     }
-
-    function detectDevtools() {
-      const start = Date.now();
-      debugger;
-      if (Date.now() - start > 150) {
-        devCount++;
-        localStorage.setItem("devCount", devCount);
-        if (devCount >= 3) {
-          setBan(5); // ban 5 phút
-        } else {
-          location.href = "index2.html";
-        }
-      }
+    function closePopup(){
+      document.getElementById('popup').style.display='none';
     }
-
-    setInterval(detectDevtools, 1000);
-
-    document.addEventListener("keydown", e => {
-      if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
-        (e.ctrlKey && e.key === "U")
-      ) {
-        e.preventDefault();
-        devCount++;
-        localStorage.setItem("devCount", devCount);
-        if (devCount >= 3) {
-          setBan(5);
-        } else {
-          location.href = "index2.html";
-        }
-      }
-    });
-
-    document.addEventListener("contextmenu", e => e.preventDefault());
   </script>
 </body>
 </html>
