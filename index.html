@@ -4,150 +4,124 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bio LTQ</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #141e30, #243b55);
+      background: #111;
       color: #fff;
+      text-align: center;
+    }
+    .container {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
     }
-
-    .bio-card {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 30px rgba(0,0,0,0.5);
-      max-width: 400px;
-      width: 90%;
-    }
-
     .avatar {
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      border: 3px solid #fff;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
-
-    h2 {
-      margin: 10px 0 5px;
-      font-size: 24px;
+    h1 {
+      margin: 0;
+      font-size: 28px;
     }
-
     p {
       margin: 5px 0 20px;
-      font-size: 14px;
-      color: #ccc;
+      font-size: 16px;
+      color: #aaa;
     }
-
-    .socials {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
+    .links a {
+      margin: 0 10px;
+      font-size: 28px;
+      color: #fff;
+      transition: transform 0.3s ease-in-out;
     }
-
-    .socials a {
-      width:45px; height:45px;
-      display:flex; align-items:center; justify-content:center;
-      border-radius:50%;
-      background:rgba(255,255,255,0.1);
-      backdrop-filter:blur(10px);
-      font-size:20px;
-      color:#fff;
-      text-decoration:none;
-      transition:0.3s;
-      box-shadow:0 0 12px rgba(255,255,255,0.2);
-      animation: bounce 2s infinite ease-in-out;
+    .links a:hover {
+      color: #ff4757;
     }
-
-    .socials a:hover {
-      transform: scale(1.2);
-      background: rgba(255,255,255,0.3);
-    }
-
-    @keyframes bounce {
+    /* Hiệu ứng nhảy */
+    @keyframes upDown {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px) scale(1.1); }
+      50% { transform: translateY(-15px); }
     }
-
-    /* đổi pha để icon nhảy ngược nhau */
-    .socials a:nth-child(2) { animation-delay: 1s; }
-    .socials a:nth-child(3) { animation-delay: 0.5s; }
+    @keyframes downUp {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(15px); }
+    }
+    .yt { animation: upDown 2s infinite; }
+    .discord { animation: downUp 2s infinite; }
+    .instagram { animation: upDown 2s infinite; animation-delay: 1s; }
   </style>
 </head>
 <body>
-  <div class="bio-card">
-    <img src="https://i.ibb.co/4Y3Q4vQ/avatar.png" alt="Avatar" class="avatar">
-    <h2>LTQ</h2>
-    <p>Xin chào! Đây là bio của mình 🚀</p>
-    <div class="socials">
-      <a href="https://www.youtube.com/@LTQ-tool" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://discord.com/invite/SfFayNKxUE" target="_blank"><i class="fab fa-discord"></i></a>
-      <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+  <div class="container">
+    <img src="avatar.jpg" alt="Avatar" class="avatar">
+    <h1>LTQ TOOL</h1>
+    <p>Bio cá nhân</p>
+    <div class="links">
+      <a href="https://www.youtube.com/@LTQ-tool" target="_blank" class="yt"><i class="fab fa-youtube"></i></a>
+      <a href="https://discord.com/invite/SfFayNKxUE" target="_blank" class="discord"><i class="fab fa-discord"></i></a>
+      <a href="https://www.instagram.com/" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
     </div>
   </div>
 
+  <!-- Script chống DevTools + Ban 5 phút -->
   <script>
-  (function(){
-    let devToolCounter = parseInt(localStorage.getItem("devtool_counter") || "0");
-    let banned = localStorage.getItem("banned");
+    let devCount = parseInt(localStorage.getItem("devCount") || "0");
+    let banUntil = parseInt(localStorage.getItem("banUntil") || "0");
+    let now = Date.now();
 
-    // Nếu đã bị ban thì chuyển luôn
-    if (banned === "true") {
-      window.location.href = "index2.html";
+    // Nếu đang bị ban thì redirect luôn
+    if (banUntil > now) {
+      location.href = "index2.html";
     }
 
-    function detectDevTools() {
-      const threshold = 160;
-      const start = new Date().getTime();
-      debugger; // Trick: nếu mở devtool thì time jump
-      if (new Date().getTime() - start > threshold) {
-        devToolCounter++;
-        localStorage.setItem("devtool_counter", devToolCounter);
+    function setBan(minutes) {
+      let expire = Date.now() + minutes * 60 * 1000;
+      localStorage.setItem("banUntil", expire);
+      location.href = "index2.html";
+    }
 
-        if (devToolCounter >= 3) {
-          localStorage.setItem("banned", "true");
-          window.location.href = "index2.html";
+    function detectDevtools() {
+      const start = Date.now();
+      debugger;
+      if (Date.now() - start > 150) {
+        devCount++;
+        localStorage.setItem("devCount", devCount);
+        if (devCount >= 3) {
+          setBan(5); // ban 5 phút
         } else {
-          window.location.href = "index2.html";
+          location.href = "index2.html";
         }
       }
     }
 
-    setInterval(detectDevTools, 1000);
+    setInterval(detectDevtools, 1000);
 
-    // Chặn F12, Ctrl+Shift+I, Ctrl+U
-    document.addEventListener("keydown", function(e) {
+    document.addEventListener("keydown", e => {
       if (
         e.key === "F12" ||
         (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
         (e.ctrlKey && e.key === "U")
       ) {
         e.preventDefault();
-        devToolCounter++;
-        localStorage.setItem("devtool_counter", devToolCounter);
-
-        if (devToolCounter >= 3) {
-          localStorage.setItem("banned", "true");
-          window.location.href = "index2.html";
+        devCount++;
+        localStorage.setItem("devCount", devCount);
+        if (devCount >= 3) {
+          setBan(5);
         } else {
-          window.location.href = "index2.html";
+          location.href = "index2.html";
         }
       }
     });
 
-    // Chặn chuột phải
     document.addEventListener("contextmenu", e => e.preventDefault());
-  })();
   </script>
 </body>
 </html>
